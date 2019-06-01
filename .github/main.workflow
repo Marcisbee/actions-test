@@ -15,20 +15,20 @@ action "Lint" {
 }
 
 action "Test" {
-  needs = "Lint"
+  needs = "Build"
   uses = "actions/npm@master"
   args = "test"
 }
 
 action "Bundle" {
-  needs = "Test"
+  needs = "Build"
   uses = "actions/npm@master"
   args = "run build"
 }
 
 # Filter for a new tag
 action "Tag" {
-  needs = "Bundle"
+  needs = ["Lint", "Test", "Bundle"]
   uses = "actions/bin/filter@master"
   args = "tag"
 }

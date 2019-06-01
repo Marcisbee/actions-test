@@ -8,21 +8,27 @@ action "Build" {
   args = "install"
 }
 
-action "Test" {
+action "Lint" {
   needs = "Build"
+  uses = "actions/npm@master"
+  args = "run lint"
+}
+
+action "Test" {
+  needs = "Lint"
   uses = "actions/npm@master"
   args = "test"
 }
 
-action "Lint" {
-  needs = "Build"
+action "Bundle" {
+  needs = "Test"
   uses = "actions/npm@master"
-  args = "test"
+  args = "run build"
 }
 
 # Filter for a new tag
 action "Tag" {
-  needs = "Test"
+  needs = "Bundle"
   uses = "actions/bin/filter@master"
   args = "tag"
 }

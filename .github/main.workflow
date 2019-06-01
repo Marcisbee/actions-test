@@ -11,13 +11,13 @@ action "Build" {
 action "Bundle" {
   needs = "Build"
   uses = "actions/npm@master"
-  args = "build"
+  args = "run build"
 }
 
 action "Lint" {
   needs = "Build"
   uses = "actions/npm@master"
-  args = "lint"
+  args = "run lint"
 }
 
 action "Test" {

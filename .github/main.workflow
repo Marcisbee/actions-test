@@ -1,4 +1,4 @@
-workflow "Build and test" {
+workflow "Build, Test, Lint and Publish" {
   on = "push"
   resolves = ["Publish"]
 }
@@ -8,19 +8,13 @@ action "Build" {
   args = "install"
 }
 
-action "Bundle" {
+action "Test" {
   needs = "Build"
   uses = "actions/npm@master"
-  args = "run build"
+  args = "test"
 }
 
 action "Lint" {
-  needs = "Build"
-  uses = "actions/npm@master"
-  args = "run lint"
-}
-
-action "Test" {
   needs = "Build"
   uses = "actions/npm@master"
   args = "test"
